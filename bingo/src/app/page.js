@@ -16,18 +16,25 @@ export default function HelloPage() {
   const end = <button className="p-button">Login</button>;
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen bg-black text-white">
         <title>
             Bingo - Home
         </title>
       {/* Navbar */}
-      <Menubar model={items} start={start} end={end} />
+      <Menubar model={items} start={start} end={end} className="bg-black text-white border-b border-red-600"/>
 
       {/* Main Content */}
-      <div className="flex flex-1 items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600">
-        <h1 className="text-4xl font-bold text-white">Hello, World!</h1>
+      <div className="flex flex-1 flex-col items-center justify-center bg-gradient-to-r from-black to-red-950">
+        <h1 className="text-4xl font-bold text-white">
+          Find your next game using Bingo! We will analyze baased on 
+          your input on your past experience, 
+          Start here:</h1>
+        <button className="px-6 py-3 ">Login</button>
+      </div>
+      <div>
+
+
       </div>
     </div>
   );
 }
-
