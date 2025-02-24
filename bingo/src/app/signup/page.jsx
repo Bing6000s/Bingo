@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { auth } from '@/app/Firebase/config';
+import BingoMenu from "@/components/BingoMenu"
 
 const SignUp = () => {
   const [email, setEmail] = useState('');
@@ -21,9 +22,18 @@ const SignUp = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-black via-purple-900 to-red-900 text-center p-6">
-      <title>Bingo - Sign Up</title>
-      <div className="bg-gray-900 p-10 rounded-lg shadow-2xl w-96 border-2 border-red-700">
+    <div className="item-center justify-center flex flex-column  min-h-screen  bg-black  text-center p-6">
+
+      <title>
+        Bingo - Sign up
+      </title>
+
+      <div className='w-full fixed top-0 left-0 bg-black z-10'>
+          <BingoMenu/>
+      </div>
+      
+      <div className='flex flex-grow justify-center items-center mt-16'>
+      <div className =" bg-gray-900 p-10 rounded-lg shadow-2xl border-2 border-red-700 w-[400px] h-[400px]">
         <h1 className="text-white text-3xl font-bold mb-5 tracking-wide animate-pulse">Sign Up to Bingo</h1>
        <p className = "text-white font-">Accepting GMail's only</p> 
         <input
@@ -49,6 +59,7 @@ const SignUp = () => {
         Sign up
         </button>
       </div>
+    </div>
     </div>
   );
 };

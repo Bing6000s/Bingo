@@ -4,6 +4,7 @@ import React from "react";
 import Head from "next/head";
 import Link from "next/link"
 import BingoMenu from "@/components/BingoMenu"
+
 export default function Homepage() {
   return (
     <div className="flex flex-col h-screen bg-black text-white">
