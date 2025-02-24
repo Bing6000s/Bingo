@@ -8,16 +8,12 @@ import Link from "next/link"
 
 export default function HelloPage() {
   const items = [
-    { label: "Bingo", icon: "/console.png" }, // Fixed image path
-    { label: "About", icon: "pi pi-info" },
-    { label: "Services", icon: "pi pi-cog" },
-    { label: "Contact", icon: "pi pi-envelope" },
+    { label: "Bingo - Find your next video game with ease", icon: "/console.png" },
   ];
 
-  const start = <Image src="/joystick.png" alt="joystick" width={50} height={50} />;
+  const start = <Image src="/Bingo.webp" alt="joystick" width={50} height={50} />;
   const end = (
     <div>
-
     <button className="px-6 py-2 bg-white text-black font-bold uppercase rounded-lg hover:bg-red-700 transition-all">
       <Link href = "/signup">Sign Up</Link>
     </button>
@@ -62,7 +58,7 @@ export default function HelloPage() {
           We analyze your gaming experience and preferences to give you the perfect recommendation. Start here:
         </p>
         <button className="mt-6 px-8 py-3 bg-red-600 text-white font-bold uppercase rounded-full shadow-lg hover:bg-red-700 hover:scale-105 transition-all">
-          <Link href="/signin">Get Started</Link>
+          <Link href="/recommend">Get Started</Link>
         </button>
       </div>
     </div>
