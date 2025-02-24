@@ -1,39 +1,16 @@
 "use client"; // Required for PrimeReact in Next.js App Router
 
-import Image from "next/image";
 import React from "react";
-import { Menubar } from "primereact/menubar";
 import Head from "next/head";
 import Link from "next/link"
-
-export default function HelloPage() {
-  const items = [
-    { label: "Bingo - Find your next video game with ease", icon: "/console.png" },
-  ];
-
-  const start = <Image src="/Bingo.webp" alt="joystick" width={50} height={50} />;
-  const end = (
-    <div>
-    <button className="px-6 py-2 bg-white text-black font-bold uppercase rounded-lg hover:bg-red-700 transition-all">
-      <Link href = "/signup">Sign Up</Link>
-    </button>
-    <button className="px-6 py-2 bg-red-600 text-white font-bold uppercase rounded-lg hover:bg-white hover:text-black transition-all">
-      <Link href = "/signin">Sign In</Link>
-    </button>
-      
-    </div>
-
-  );
-
+import BingoMenu from "@/components/BingoMenu"
+export default function Homepage() {
   return (
     <div className="flex flex-col h-screen bg-black text-white">
       <Head>
         <title>Bingo - Home</title>
       </Head>
-
-      {/* Navbar */}
-      <Menubar model={items} start={start} end={end} className="bg-black text-white border-b border-red-600 px-6 shadow-lg" />
-
+      <BingoMenu/>
       {/* Introduction Section */}
       <div className="flex flex-1 flex-col items-center justify-center text-center p-6">
         <p className="text-lg max-w-xl">
