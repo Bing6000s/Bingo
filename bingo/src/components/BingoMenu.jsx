@@ -10,7 +10,7 @@ export default function bingoMenu() {
     { 
       label: (
         <span className="text-lg font-bold tracking-wide text-red-500">
-          Bingo <span className="text-white">Find your next video game with ease.</span>
+          <h1 className="text-white">Find your next video game with ease.</h1>
         </span>
       ), 
       icon: <Image src="/Bingo.webp" alt="Bingo Logo" width={70} height={70} />
