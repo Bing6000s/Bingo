@@ -36,7 +36,7 @@ export default function Homepage() {
           We analyze your gaming experience and preferences to give you the perfect recommendation. Start here:
         </p>
         <button className="mt-6 px-8 py-3 bg-red-600 text-white font-bold uppercase rounded-full shadow-lg hover:bg-red-700 hover:scale-105 transition-all">
-          <Link href="/recommend">Get Started</Link>
+          <Link href="/signin">Get Started</Link>
         </button>
       </div>
     </div>

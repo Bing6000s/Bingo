@@ -1,15 +1,24 @@
 'use client'
-import { useState } from 'react';
+import { useState,useEffect} from 'react';
 import {useSignInWithEmailAndPassword} from 'react-firebase-hooks/auth'
 import {auth} from '@/app/Firebase/config'
 import { useRouter } from 'next/navigation';
 import BingoMenu from "@/components/BingoMenu"
+import Link from "next/link"
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
+  const [signInWithEmailAndPassword, user, loading, error] = useSignInWithEmailAndPassword(auth);
   const router = useRouter()
+
+  useEffect(()=>{
+    if(user){
+
+      sessionStorage.setItem("user", JSON.stringify(user.user));
+    router.push("/recommend");
+  }
+},[user,router]);
 
   const handleSignIn = async () => {
     try {
@@ -58,6 +67,13 @@ const SignIn = () => {
           className="w-full p-3 bg-indigo-600 rounded text-white hover:bg-indigo-500"
         >
           Sign In
+        </button>
+        <button 
+          className="w-full p-3 bg-indigo-600 rounded text-white hover:bg-indigo-500"
+        >
+          <Link href="/signup">
+          Sign up
+          </Link>
         </button>
       </div>
     </div>
