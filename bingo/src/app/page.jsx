@@ -13,7 +13,7 @@ export default function Homepage() {
       </Head>
       <BingoMenu/>
       {/* Introduction Section */}
-      <div className="flex flex-1 flex-col items-center justify-center text-center p-6">
+      <div className="flex flex-1 flex-col items-center justify-center text-center p-6 bg-slate-500">
         <p className="text-lg max-w-xl">
           Tell me 3 video games that you really like. Then, we will figure out what your next adventure will be.
         </p>
@@ -22,7 +22,7 @@ export default function Homepage() {
       {/* Image with Overlay Text */}
       <div className="relative flex-col flex items-center">
         <img src="/games.png" alt="Games Image" className="h-auto w-full max-w-[500px] rounded-lg md:max-w-[700px] lg:max-w-[900px]" />
-        <div className="absolute inset-0 flex items-center justify-center bg-black/40 text-white font-extrabold text-8xl text-center">
+        <div className=" absolute inset-0 flex items-center justify-center bg-grey text-white font-extrabold text-8xl text-center">
           Find your next game with ease.
         </div> 
       </div>
