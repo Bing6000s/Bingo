@@ -1,8 +1,9 @@
 'use client';
 import React, { useState } from "react";
 import BingoMenu from "@/components/BingoMenu";
-
+import {useRouter} from "next/navigation"
 const GameRecommendation = () => {
+  const router = useRouter();
   const [selectedType, setSelectedType] = useState("tags");
   const [gameTitles, setGameTitles] = useState(["", "", ""]);
   const [experience, setExperience] = useState(""); // Stores user experience text
@@ -16,6 +17,10 @@ const GameRecommendation = () => {
   const handleRecommendation = () => {
     console.log("Fetching recommendations for:", gameTitles, "Experience:", experience);
   };
+
+  const gotoFeedback =() => {
+    router.push("/feedback")
+  }
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-900 text-white p-8">
@@ -92,7 +97,15 @@ const GameRecommendation = () => {
           Get recommendation
         </button>
       </div>
+      <div>
+        <button 
+        onClick={gotoFeedback}
+        className="px-6 py-3 text-black bg-white hover:bg-pink-50 rounded-lg shadow-lg text-lg uppercase font-bold transition duration-300">
+          We want your feedback!
+        </button>
+      </div>
     </div>
+    
   );
 };
 
