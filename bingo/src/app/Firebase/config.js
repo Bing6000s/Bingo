@@ -1,14 +1,15 @@
 // Import the functions you need from the SDKs you need
 import { getApp, getApps, initializeApp } from "firebase/app";
 import {getAuth} from 'firebase/auth'
-
+import dotenv from 'dotenv';
+dotenv.config()
 const firebaseConfig = {
-  apiKey: "AIzaSyBeQpREnvEJpAIIgglsRO--zlvDzVh6tXg",
-  authDomain: "bingo-57821.firebaseapp.com",
-  projectId: "bingo-57821",
-  storageBucket: "bingo-57821.firebasestorage.app",
-  messagingSenderId: "1065660189615",
-  appId: "1:1065660189615:web:ecab8b24b6571ad32bbd5a",
+  apiKey: process.env.NEXT_PUBLIC_APIKEY, 
+  authDomain: process.env.NEXT_PUBLIC_AUTHDOMAIN, 
+  projectId: process.env.NEXT_PUBLIC_PROJECTID,
+  storageBucket: process.env.NEXT_PUBLIC_STORAGEBUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGINGSENDERID,
+  appId: process.env.NEXT_PUBLIC_APPID
 };
 
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp;
