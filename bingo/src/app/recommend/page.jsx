@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import BingoMenu from "@/components/BingoMenu";
 import { useRouter } from "next/navigation";
-import { collection, getDocs, query, orderBy, limit, getFirestore, where } from "firebase/firestore"; 
+import { collection, getDocs, query, orderBy, limit, getFirestore, where, count } from "firebase/firestore"; 
 import { app, auth } from "@/app/Firebase/config"; 
 
 const db = getFirestore(app);
@@ -42,15 +42,14 @@ const fetchGameByTitle = async (gameTitle) => {
     }));
 };
 
-
 const GameRecommendation = () => {
     const router = useRouter();
     const [selectedType, setSelectedType] = useState("tags");
-    const [gameTitles, setGameTitles] = useState(["", "", ""]);
+    const [gameTitles, setGameTitles] = useState(["", "", "","","",""]);
     const [experience, setExperience] = useState(""); 
     const [recommendations, setRecommendations] = useState([]); 
-    const [gameTags, setGameTags] = useState([]); // ✅ State for storing fetched game tags
-
+    const [gameTags, setGameTags] = useState([]); 
+    const [genreCounts, setGenreCounts] = useState([]);
     const handleInputChange = (index, value) => {
         const updatedTitles = [...gameTitles];
         updatedTitles[index] = value;
@@ -67,10 +66,17 @@ const GameRecommendation = () => {
                         return games.flatMap(game => game.genre);
                     })
             );
-
+            const sortedTags = fetchedGameGenres.flat()
+            const Counts = sortedTags.reduce((acc, genre) =>{
+                acc[genre] = (acc[genre] || 0)+1;
+                return acc;
+            },{});
             const uniqueTags = [...new Set(fetchedGameGenres.flat())]; 
             setGameTags(uniqueTags);
+            console.log("sorted tags", sortedTags);
+            console.log("genreCounts", genreCounts);
             console.log("Fetched Tags:", uniqueTags);
+            setGenreCounts(Counts);
         } catch (error) {
             console.error("Error fetching game tags:", error);
         }
@@ -136,7 +142,7 @@ const GameRecommendation = () => {
                 <h2 className="text-lg font-bold mb-3">2</h2>
                 {selectedType === "tags" ? (
                     <>
-                        <p className="text-xl font-semibold">Enter 1-3 of your favorite game titles</p>
+                        <p className="text-xl font-semibold">Enter 1-6 of your favorite game titles</p>
                         <div className="flex flex-col gap-3 mt-4">
                             {gameTitles.map((title, index) => (
                                 <input
@@ -177,8 +183,12 @@ const GameRecommendation = () => {
             {/* ✅ Display Recommended Games */}
             {recommendations.length > 0 && (
                 <div className="mt-6">
-                    <h2 className="text-xl font-semibold mb-3">Recommended Games</h2>
-                    <ul>
+                    <h2 className="text-center text-xl font-semibold mb-3">Recommended Games</h2>
+                    <h2 className="text-lg">
+                        Our analysis: You like 
+                        <h2>{JSON.stringify(genreCounts)}</h2>
+                    </h2>
+                    <ul className="text-center">
                         {recommendations.map((game) => (
                             <li key={game.id} className="text-lg">
                                 {game.title} (Rating: {game.rating})
