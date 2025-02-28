@@ -2,15 +2,12 @@
 import React, { useState } from "react";
 import BingoMenu from "@/components/BingoMenu";
 import { useRouter } from "next/navigation";
-import { collection, getDocs, query, orderBy, limit, getFirestore,where } from "firebase/firestore"; 
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { app, auth } from "@/app/Firebase/config"; // Ensure Firebase is initialized
-
+import { collection, getDocs, query, orderBy, limit, getFirestore, where } from "firebase/firestore"; 
+import { app, auth } from "@/app/Firebase/config"; 
 
 const db = getFirestore(app);
 const gamesCollection = collection(db, "games");
 
-// ✅ Fix: Make fetchTopRatedGames return a Promise directly
 const fetchTopRatedGames = async () => {
     try {
         const topRatedQuery = query(gamesCollection, orderBy("rating", "desc"), limit(3));
@@ -25,12 +22,11 @@ const fetchTopRatedGames = async () => {
         }));
     } catch (error) {
         console.error("Error fetching top-rated games:", error);
-        return []; // Return an empty array in case of error
+        return []; 
     }
 };
 
-const fetchGame = async (gameTitle) =>{
-
+const fetchGameByTitle = async (gameTitle) => {
     const searchQuery = query(
       gamesCollection, 
       where("title", "==", gameTitle)
@@ -44,15 +40,16 @@ const fetchGame = async (gameTitle) =>{
             votes: doc.data().votes,
             year: doc.data().year
     }));
-  
 };
+
 
 const GameRecommendation = () => {
     const router = useRouter();
     const [selectedType, setSelectedType] = useState("tags");
     const [gameTitles, setGameTitles] = useState(["", "", ""]);
-    const [experience, setExperience] = useState(""); // Stores user experience text
-    const [recommendations, setRecommendations] = useState([]); // ✅ Store fetched recommendations
+    const [experience, setExperience] = useState(""); 
+    const [recommendations, setRecommendations] = useState([]); 
+    const [gameTags, setGameTags] = useState([]); // ✅ State for storing fetched game tags
 
     const handleInputChange = (index, value) => {
         const updatedTitles = [...gameTitles];
@@ -60,34 +57,51 @@ const GameRecommendation = () => {
         setGameTitles(updatedTitles);
     };
 
-    // ✅ Fix: Call fetchTopRatedGames() correctly and update state
+    const fetchGameTags = async () => {
+        try {
+            const fetchedGameGenres = await Promise.all(
+                gameTitles
+                    .filter(title => title.trim() !== "")
+                    .map(async (title) => {
+                        const games = await fetchGameByTitle(title);
+                        return games.flatMap(game => game.genre);
+                    })
+            );
+
+            const uniqueTags = [...new Set(fetchedGameGenres.flat())]; 
+            setGameTags(uniqueTags);
+            console.log("Fetched Tags:", uniqueTags);
+        } catch (error) {
+            console.error("Error fetching game tags:", error);
+        }
+    };
+
     const handleRecommendation = async () => {
         try {
-            const user = auth.currentUser; // ✅ Check if the user is authenticated
+            const user = auth.currentUser; 
             if (!user) {
                 console.error("User is not authenticated.");
+                setRecommendations(["Warning: User is not authenticated."]);
                 return;
             }
 
+            await fetchGameTags(); 
+
             const topGames = await fetchTopRatedGames();
-            setRecommendations(topGames); // ✅ Update state with fetched recommendations
+            setRecommendations(topGames); 
         } catch (error) {
             console.error("Error getting recommendations:", error);
         }
     };
 
     const gotoFeedback = () => {
-      router.push("/feedback");
+        router.push("/feedback");
     };
 
     const tester = () => {
-      fetchGame("Persona 4 Golden").then((games) => {
-    games.forEach((game) => {
-        console.log(`Title: ${game.title}`);
-        console.log(`Genres: ${game.genre.join(", ")}`); // Print genres
-    });
-});
-    }
+        console.log("Game titles:", gameTitles);
+        fetchGameTags();
+    };
 
     return (
         <div className="flex flex-col items-center min-h-screen bg-gray-900 text-white p-8">
@@ -145,7 +159,6 @@ const GameRecommendation = () => {
                             onChange={(e) => setExperience(e.target.value)}
                             className="w-80 h-32 p-3 mt-3 bg-gray-800 rounded border border-gray-600 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
-                        <p>Are the games too difficult? Do you have time to play this game? Do you want more narrative? Or do you want more mechanics?</p>
                     </>
                 )}
             </div>
