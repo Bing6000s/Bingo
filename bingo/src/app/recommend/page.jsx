@@ -143,7 +143,7 @@ const GameRecommendation = () => {
 
             const weightedTags = selectFavoriteTags(counts);
             setGenreCounts(counts);
-            setRecommendationTags(weightedTags); // This triggers useEffect
+            setRecommendationTags(weightedTags);
         } catch (error) {
             console.error("Error fetching game tags:", error);
         }
@@ -177,7 +177,7 @@ const GameRecommendation = () => {
             }
 
             setLoading(true);
-            await fetchGameTags(); // This triggers useEffect to update recommendations
+            await fetchGameTags(); 
         } catch (error) {
             console.error("Error getting recommendations:", error);
         } finally {

@@ -9,8 +9,8 @@ export default function bingoMenu() {
   const items = [
     { 
       label: (
-        <span className="text-lg font-bold tracking-wide text-red-500">
-          <h1 className="text-white bg-grey">Find your next video game with ease.</h1>
+        <span className="text-lg font-bold tracking-wide text-white m-5">
+          <h3 className="hidden sm:block m-3">BINGO GAME RECOMMENDER</h3>
         </span>
       ), 
       icon: <Image src="/Bingo.webp" alt="Bingo Logo" width={70} height={70} />
@@ -19,10 +19,10 @@ export default function bingoMenu() {
 
   const end = (
     <div>
-      <button className="m-2 px-6 py-2 bg-white text-black font-bold uppercase rounded-lg hover:bg-red-700 transition-all">
-        <Link href="/signup">Sign Up</Link>
+      <button className="m-2 px-6 py-2 bg-white text-black font-bold uppercase rounded-sm hover:bg-red-700 transition-all">
+        <Link href="/signup">Bing's List</Link>
       </button>
-      <button className="px-6 py-2 bg-red-600 text-white font-bold uppercase rounded-lg hover:bg-white hover:text-black transition-all">
+      <button className="px-6 py-2 bg-red-600 text-white font-bold uppercase rounded-sm hover:bg-white hover:text-black transition-all">
         <Link href="/signin">Sign In</Link>
       </button>
     </div>
