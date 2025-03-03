@@ -5,31 +5,14 @@ import { useRouter } from "next/navigation";
 import { collection, getDocs, query, orderBy, limit, 
     getFirestore, where } from "firebase/firestore"; 
 import { app, auth } from "@/app/Firebase/config"; 
+import { selectFavoriteTags } from "@/backend/recommend/SelectFavoriteTags";
+import {getRandomSelection} from "@/backend/recommend/GetRandomSelection";
+/**
+ * Figure out why Firebase files cannot be divided into smaller modules.
+ */
 
 const db = getFirestore(app);
 const gamesCollection = collection(db, "games");
-
-/**
- * @param {*} tagCounts list of tags from all user's textbox
- * @returns JSON list of {tags, ranking}. 
- * From most occured to least occured.
- */
-function selectFavoriteTags(tagCounts) {
-    let sortedTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
-    let totalOccurrences = sortedTags.reduce((sum, [, count]) => sum + count, 0);
-    let threshold = totalOccurrences * 0.8;
-
-    let selectedTags = [];
-    let accumulated = 0;
-
-    for (let [tag, count] of sortedTags) {
-        selectedTags.push(tag);
-        accumulated += count;
-        if (accumulated >= threshold) break;
-    }
-
-    return selectedTags;
-}
 
 /**
  * Return 25 of the recommended games with filtering and weighting
@@ -102,10 +85,6 @@ const fetchGameByTitle = async (gameTitle) => {
     }));
 };
 
-const getRandomSelection = (array, count) => {
-    let shuffled = [...array].sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, count);
-};
 
 const GameRecommendation = () => {
     const router = useRouter();

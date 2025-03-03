@@ -10,7 +10,7 @@ export default function bingoMenu() {
   const items = [
     { 
       label: (
-        <span className="text-lg font-bold tracking-wide text-white m-5">
+        <span className="text-lg font-bold tracking-wide text-white m-3">
           <h3 className="hidden sm:block m-3">BINGO GAME RECOMMENDER</h3>
         </span>
       ), 
@@ -31,6 +31,6 @@ export default function bingoMenu() {
   );
 
   return (
-    <Menubar model={items} end={end} className="bg-black text-white border-b border-red-600 px-6 shadow-lg" />
+    <Menubar model={items} end={end} className="bg-black text-white border-b border-red-600 shadow-lg" />
   );
 }
