@@ -1,20 +1,23 @@
 'use client'
 import { useState,useEffect} from 'react';
-import {useSignInWithEmailAndPassword} from 'react-firebase-hooks/auth'
+import {useCreateUserWithEmailAndPassword, 
+  useSignInWithEmailAndPassword} from 
+  'react-firebase-hooks/auth'
 import {auth} from '@/app/Firebase/config'
 import { useRouter } from 'next/navigation';
 import BingoMenu from "@/components/BingoMenu"
 import Link from "next/link"
 
-const SignIn = () => {
+const Authentication = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [signInWithEmailAndPassword, user, loading, error] = useSignInWithEmailAndPassword(auth);
+  const [signInWithEmailAndPassword, user, loading, error] 
+  = useSignInWithEmailAndPassword(auth);
   const router = useRouter()
-
+  const [createUserWithEmailAndPassword] = 
+  useCreateUserWithEmailAndPassword(auth);
   useEffect(()=>{
     if(user){
-
       sessionStorage.setItem("user", JSON.stringify(user.user));
     router.push("/recommend");
   }
@@ -33,8 +36,20 @@ const SignIn = () => {
     }
   };
 
+  const handleSignUp = async () => {
+    try {
+      const res = await createUserWithEmailAndPassword(email, password);
+      console.log({ res });
+      sessionStorage.setItem('user', true);
+      setEmail('');
+      setPassword('');
+    } catch (e) {
+      console.error(e);
+    }
+  };
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black">
+    <div className="min-h-screen flex items-center 
+    justify-center bg-black">
 
       <title>
         Bingo - Sign In
@@ -44,10 +59,12 @@ const SignIn = () => {
         <BingoMenu/>
       </div>
 
-      <div className='flex flex-grow justify-center items-center mt-16'>
+      <div className='flex flex-grow justify-center items-center
+       mt-16'>
       <div className="bg-gray-800 p-10 rounded-lg shadow-xl w-96">
-        <h1 className="text-white text-2xl mb-5">Sign In</h1>
-        <p className='text-white font-thin'>Accepting GMail's only.</p>
+        <h1 className="tracking-wide animate-pulse font-bold text-white text-2xl mb-5">
+          SIGN IN
+          </h1>
         <input 
           type="email" 
           placeholder="Email" 
@@ -64,16 +81,15 @@ const SignIn = () => {
         />
         <button 
           onClick={handleSignIn}
-          className="w-full p-3 bg-indigo-600 rounded text-white hover:bg-indigo-500"
+          className="w-full p-3 bg-gradient-to-r from-red-600 to-indigo-600 hover:from-red-700 hover:to-indigo-700 text-white rounded-lg shadow-lg tracking-widest uppercase font-bold transform hover:scale-105 transition duration-300"
         >
           Sign In
         </button>
         <button 
-          className="w-full p-3 bg-indigo-600 rounded text-white hover:bg-indigo-500"
+          onClick={handleSignUp}
+          className="w-full p-3 bg-gradient-to-r from-red-600 to-indigo-600 hover:from-red-700 hover:to-indigo-700 text-white rounded-lg shadow-lg tracking-widest uppercase font-bold transform hover:scale-105 transition duration-300 mt-1"
         >
-          <Link href="/signup">
           Sign up
-          </Link>
         </button>
       </div>
     </div>
@@ -81,4 +97,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default Authentication;
