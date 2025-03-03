@@ -192,7 +192,7 @@ const GameRecommendation = () => {
             <div className="w-full fixed top-0 left-0 bg-black z-10">
                 <BingoMenu />
             </div>
-
+<div className=" mt-40">
             <div className="text-center mb-6">
                 <h2 className="text-2xl font-bold mb-3">Game Recommendation System</h2>
                 <p className="text-lg">Enter 1-6 of your favorite game titles</p>
@@ -234,6 +234,8 @@ const GameRecommendation = () => {
                     </ul>
                 </div>
             )}
+</div>
+
         </div>
     );
 };
