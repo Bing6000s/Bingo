@@ -1,57 +1,64 @@
 'use client';
 import { useState } from "react";
 import BingoMenu from "@/components/BingoMenu";
+import { collection, addDoc, getFirestore, Timestamp } from "firebase/firestore"; 
+import { app } from "@/app/Firebase/config"; 
+
+const db = getFirestore(app);
+const feedbackCollection = collection(db, "UserFeedBack");
 
 const FeedbackTable = () => {
-  const [feedbacks, setFeedbacks] = useState([
-    { id: 1, feedback: "" },
-    { id: 2, feedback: "" },
-    { id: 3, feedback: "" },
-    { id: 4, feedback: "" },
-  ]);
+  const [feedbacks, setFeedbacks] = useState("");
+  const [status, setStatus] = useState(null);
 
-  const handleFeedbackChange = (index, value) => {
-    const updatedFeedbacks = [...feedbacks];
-    updatedFeedbacks[index].feedback = value;
-    setFeedbacks(updatedFeedbacks);
+  const handleSubmission = async () => {
+    if (feedbacks.trim() === "") {
+      setStatus("Feedback cannot be empty.");
+      return;
+    }
+
+    try {
+      await addDoc(feedbackCollection, {
+        feedback: feedbacks,
+        timestamp: Timestamp.now(),
+      });
+
+      setStatus("Feedback submitted successfully!");
+      setFeedbacks("");
+    } catch (error) {
+      console.error("Error submitting feedback:", error);
+      setStatus("Failed to submit feedback.");
+    }
   };
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-900 text-white p-8">
       <div className='w-full fixed top-0 left-0 bg-black z-10'>
-        <BingoMenu/>
+        <BingoMenu />
       </div>
-<div>
-    <div className="mt-60">
-      <h2 className="text-2xl font-bold mt-auto">Recommendation Feedback</h2>
 
-      <div className="w-full max-w-2xl ">
-        <table className="w-full border border-gray-600 rounded-lg overflow-hidden">
-          <thead className="bg-gray-700 text-white">
-            <tr>
-              <th className="p-3 border border-gray-600">Recommend ID</th>
-              <th className="p-3 border border-gray-600">Leave Feedback</th>
-            </tr>
-          </thead>
-          <tbody>
-            {feedbacks.map((item, index) => (
-              <tr key={item.id} className="bg-gray-800">
-                <td className="p-3 text-center border border-gray-600">{item.id}</td>
-                <td className="p-3 border border-gray-600">
-                  <input
-                    type="text"
-                    value={item.feedback}
-                    onChange={(e) => handleFeedbackChange(index, e.target.value)}
-                    className="w-full p-2 bg-gray-700 text-white rounded border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Enter your feedback..."
-                  />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-    </div>
-</div>
+      {/* Feedback Section */}
+      <div className="mt-32 w-full max-w-2xl bg-gray-800 p-6 rounded-xl shadow-lg">
+        <h2 className="text-2xl font-bold text-center mb-4">Share Your Feedback</h2>
+
+        {/* Text Area */}
+        <textarea
+          className="w-full h-40 p-3 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Enter your feedback here..."
+          value={feedbacks}
+          onChange={(e) => setFeedbacks(e.target.value)}
+        />
+
+        {/* Status Message */}
+        {status && <p className="text-center mt-3">{status}</p>}
+
+        {/* Submit Button */}
+        <button
+          className="w-full mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition"
+          onClick={handleSubmission}
+        >
+          Submit Feedback
+        </button>
       </div>
     </div>
   );
