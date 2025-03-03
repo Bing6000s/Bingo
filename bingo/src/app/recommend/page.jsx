@@ -93,6 +93,7 @@ const GameRecommendation = () => {
     const [recommendationTags, setRecommendationTags] = useState([]); 
     const [genreCounts, setGenreCounts] = useState({});
     const [loading, setLoading] = useState(false);
+    const [feedback, setFeedback] = useState(false);
 
     const handleInputChange = (index, value) => {
         const updatedTitles = [...gameTitles];
@@ -157,6 +158,7 @@ const GameRecommendation = () => {
 
             setLoading(true);
             await fetchGameTags(); 
+            setFeedback(true);
         } catch (error) {
             console.error("Error getting recommendations:", error);
         } finally {
@@ -213,6 +215,14 @@ const GameRecommendation = () => {
                     </ul>
                 </div>
             )}
+            <div className="mt-4 text-center justify-center item-center">
+                {feedback && (<button 
+                className="px-10 py-3 bg-gradient-to-r from-red-700 to-gray-950" 
+                onClick={() => router.push('/Feedback')}>
+                    We wants your Feedback!
+                </button>)}
+            </div>
+
             </div>
 
         </div>
