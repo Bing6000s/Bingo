@@ -5,85 +5,16 @@ import { useRouter } from "next/navigation";
 import { collection, getDocs, query, orderBy, limit, 
     getFirestore, where } from "firebase/firestore"; 
 import { app, auth } from "@/app/Firebase/config"; 
-import { selectFavoriteTags } from "@/backend/recommend/SelectFavoriteTags";
-import {getRandomSelection} from "@/backend/recommend/GetRandomSelection";
+import { selectFavoriteTags } from "@/backend/filtering/SelectFavoriteTags";
+import {getRandomSelection} from "@/backend/filtering/GetRandomSelection";
+import {fetchRecommended} from "@/backend/recommend/FetchRecommend"
+import { fetchGameByTitle } from "@/backend/recommend/FetchGameByTitle";
 /**
  * Figure out why Firebase files cannot be divided into smaller modules.
  */
 
-const db = getFirestore(app);
-const gamesCollection = collection(db, "games");
-
-/**
- * Return 25 of the recommended games with filtering and weighting
- *  the genre tags
- * @param recommendingTags tag searches the firebase query
- * @param existGames list containing games that is already existed
- */
-const fetchRecommended = async (recommendingTags, existGames) => {
-    try {
-        //return warning if something is wrong with recommendingTags
-        if (!recommendingTags || recommendingTags.length === 0) {
-            console.warn("No recommendation tags available.");
-            return [];
-        }
-
-        console.log("Fetching games for tags:", recommendingTags);
-        //firestore array-contains-any has hard limit of 10. so pass
-        //10 most occured tags to filter
-        const validTags = recommendingTags.slice(0, 10);
-
-        const recommendQuery = query(
-            gamesCollection,
-            where("genre", "array-contains-any", validTags),
-            orderBy("rating", "desc"),
-            limit(25)
-        );
-
-        const querySnapshot = await getDocs(recommendQuery);
-
-        let games = querySnapshot.docs.map(doc => ({
-            id: doc.id,
-            title: doc.data().title,
-            genre: doc.data().genre,
-            rating: doc.data().rating,
-            votes: doc.data().votes,
-            year: doc.data().year,
-            plot: doc.data().plot
-        }));
-
-        // Filter out existing game IDs to prevent duplicates
-        games = games.filter(game => !existGames.includes(game.id));
-
-        return games;
-    } catch (error) {
-        console.error("Error fetching recommended games:", error);
-        return [];
-    }
-};
-
-/**
- * 
- * @param {string} gameTitle game's title name
- * @returns All information about the game.
- */
-const fetchGameByTitle = async (gameTitle) => {
-    const searchQuery = query(
-        gamesCollection,
-        where("title", "==", gameTitle)
-    );
-    const querySnapshot = await getDocs(searchQuery);
-
-    return querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        genre: doc.data().genre,
-        rating: doc.data().rating,
-        title: doc.data().title,
-        votes: doc.data().votes,
-        year: doc.data().year,
-        plot: doc.data().plot
-    }));
-};
+export const db = getFirestore(app);
+export const gamesCollection = collection(db, "games");
 
 
 const GameRecommendation = () => {
@@ -218,7 +149,7 @@ const GameRecommendation = () => {
             <div className="mt-4 text-center justify-center item-center">
                 {feedback && (<button 
                 className="px-10 py-3 bg-gradient-to-r from-red-700 to-gray-950" 
-                onClick={() => router.push('/Feedback')}>
+                onClick={() => router.push('/feedback')}>
                     We wants your Feedback!
                 </button>)}
             </div>

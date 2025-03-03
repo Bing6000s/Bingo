@@ -65,6 +65,7 @@ const Authentication = () => {
         <h1 className="tracking-wide animate-pulse font-bold text-white text-2xl mb-5">
           SIGN IN
           </h1>
+          <p className='text-white font-extralight text-center'>We accepts any email with a valid password.</p>
         <input 
           type="email" 
           placeholder="Email" 
