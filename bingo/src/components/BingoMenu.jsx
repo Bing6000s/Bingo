@@ -22,7 +22,7 @@ export default function bingoMenu() {
   const end = (
     <div className="mx-10">
       <button className="m-2 px-6 py-2 bg-white text-black font-bold uppercase rounded-sm hover:bg-red-700 transition-all">
-        <Link href="/feedback">Online Games</Link>
+        <Link href="/Feedback">Online Games</Link>
       </button>
       <button className=" px-6 py-2 bg-red-600 text-white font-bold uppercase rounded-sm hover:bg-white hover:text-black transition-all">
         <Link href="/signin">Sign in</Link>

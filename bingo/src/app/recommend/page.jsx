@@ -149,7 +149,7 @@ const GameRecommendation = () => {
             <div className="mt-4 text-center justify-center item-center">
                 {feedback && (<button 
                 className="px-10 py-3 bg-gradient-to-r from-red-700 to-gray-950" 
-                onClick={() => router.push('/feedback')}>
+                onClick={() => router.push('/Feedback')}>
                     We wants your Feedback!
                 </button>)}
             </div>
