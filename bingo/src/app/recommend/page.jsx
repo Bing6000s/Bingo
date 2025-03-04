@@ -108,7 +108,8 @@ const GameRecommendation = () => {
             <div className="text-center mb-6">
                 <h2 className="text-2xl font-bold mb-3">Game Recommendation System</h2>
                 <p className="text-lg">Enter 1-6 of your favorite game titles</p>
-                <div className="flex flex-col gap-3 mt-4">
+                <p className="text-lg">The name must follow exactly to IMDB's listing. For example, Red Dead Redemption II, Baldur's Gate III, Apex Legends...</p>
+                <div className="flex flex-col gap-3 mt-4 items-center text-center">
                     {gameTitles.map((title, index) => (
                         <input
                             key={index}
@@ -133,8 +134,9 @@ const GameRecommendation = () => {
             </div>
 
             {recommendations.length > 0 && (
+                <div className="flex justify-center items-center">
                 <div className="mt-8 w-full max-w-2xl bg-gray-800 p-6 rounded-lg shadow-lg">
-                    <h2 className="text-center text-xl font-semibold mb-3 text-blue-400">Recommended Games</h2>
+                    <h2 className=" text-xl font-semibold mb-3 text-blue-400">Recommended Games</h2>
                     <ul className="space-y-4">
                         {recommendations.map((game) => (
                             <li key={game.id} className="text-lg flex flex-col items-center border-b pb-3 border-gray-600 last:border-0">
@@ -144,6 +146,7 @@ const GameRecommendation = () => {
                             </li>
                         ))}
                     </ul>
+                </div>
                 </div>
             )}
             <div className="mt-4 text-center justify-center item-center">
