@@ -6,7 +6,6 @@ import {useCreateUserWithEmailAndPassword,
 import {auth} from '@/app/Firebase/config'
 import { useRouter } from 'next/navigation';
 import BingoMenu from "@/components/BingoMenu"
-import Link from "next/link"
 
 const Authentication = () => {
   const [email, setEmail] = useState('');
