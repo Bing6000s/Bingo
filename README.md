@@ -5,9 +5,5 @@ Introducing my first website, Bingo. This is a website that will assist you in f
 We ask you to input up to 6 of your favorite video games from the past. The input must be exactly as it appeared from IMDB. Then, we collect all the genre from your input, and search the IMDB database and recommend you 3 different video games.
 
 
-### To run this project:
-    git clone git@github.com:Bing6000s/Bingo.git
-    cd bingo
-    npm install
-    npm install dotenv
-    vim .env.local
+### Visit my website!
+https://bingo-nine-steel.vercel.app/
